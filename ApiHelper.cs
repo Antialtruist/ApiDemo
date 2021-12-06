@@ -30,9 +30,24 @@ namespace ApiDemo
             return restRequest;
         }
 
+        public RestRequest CreatePutRequest(string payload)
+        {
+            var restRequest = new RestRequest(Method.PUT);
+            restRequest.AddHeader("Accept", "application/json");
+            restRequest.AddParameter("application/json", payload, ParameterType.RequestBody);
+            return restRequest;
+        }
+
         public RestRequest CreateGetRequest()
         {
             var restRequest = new RestRequest(Method.GET);
+            restRequest.AddHeader("Accept", "application/json");
+            return restRequest;
+        }
+
+        public RestRequest CreateDeleteRequest()
+        {
+            var restRequest = new RestRequest(Method.DELETE);
             restRequest.AddHeader("Accept", "application/json");
             return restRequest;
         }

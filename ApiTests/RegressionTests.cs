@@ -10,10 +10,11 @@ namespace ApiTests
         [TestMethod]
         public void VerifyUsers()
         {
-            var demo = new Demo();
-            var response = demo.GetUsers();
-            Assert.AreEqual(2, response.Page);
-            Assert.AreEqual("Michael", response.Data[0].first_name);
+            var demo = new Demo<UsersDto>();
+            var user = demo.GetUsers("api/users?page=2");
+
+            Assert.AreEqual(2, user.Page);
+            Assert.AreEqual("Michael", user.Data[0].first_name);
         }
 
         [TestMethod]
@@ -23,14 +24,11 @@ namespace ApiTests
                                 ""name"": ""John Snow"",
                                 ""job"": ""Dark Knight""
                                }";
-            var user = new ApiHelper<CreateUserDto>();
-            var url = user.SetUrl("api/users");
-            var request = user.CreatePostRequest(payload);
-            var response = user.GetResponse(url, request);
-            CreateUserDto content = user.GetContent<CreateUserDto>(response);
+            var demo = new Demo<CreateUserDto>();
+            var user = demo.CreateUser("api/users", payload);
 
-            Assert.AreEqual("John Snow", content.Name);
-            Assert.AreEqual("Dark Knight", content.Job);
+            Assert.AreEqual("John Snow", user.Name);
+            Assert.AreEqual("Dark Knight", user.Job);
         }
     }
 }

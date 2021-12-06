@@ -8,34 +8,26 @@ using System.Threading.Tasks;
 
 namespace ApiDemo
 {
-    public class Demo
+    public class Demo<T>
     {
-        public UsersDto GetUsers()
+        public UsersDto GetUsers(string endpoint)
         {
-            var restClient = new RestClient("https://reqres.in");
-            var restRequest = new RestRequest("/api/users?page=2", Method.GET);
-            restRequest.AddHeader("Accept", "application/json");
-            restRequest.RequestFormat = DataFormat.Json;
-
-            IRestResponse response = restClient.Execute(restRequest);
-            var content = response.Content;
-
-            var users = JsonConvert.DeserializeObject<UsersDto>(content);
-            return users;
+            var user = new ApiHelper<UsersDto>();
+            var url = user.SetUrl(endpoint);
+            var request = user.CreateGetRequest();
+            var response = user.GetResponse(url, request);
+            UsersDto content = user.GetContent<UsersDto>(response);
+            return content;
         }
 
-        //public CreateUserDto CreateUser()
-        //{
-        //    var restClient = new RestClient("https://reqres.in");
-        //    var restRequest = new RestRequest("/api/users?page=2", Method.GET);
-        //    restRequest.AddHeader("Accept", "application/json");
-        //    restRequest.RequestFormat = DataFormat.Json;
-
-        //    IRestResponse response = restClient.Execute(restRequest);
-        //    var content = response.Content;
-
-        //    var users = JsonConvert.DeserializeObject<UsersDto>(content);
-        //    return users;
-        //}
+        public CreateUserDto CreateUser(string endpoint, dynamic payload)
+        {
+            var user = new ApiHelper<CreateUserDto>();
+            var url = user.SetUrl(endpoint);
+            var request = user.CreatePostRequest(payload);
+            var response = user.GetResponse(url, request);
+            CreateUserDto content = user.GetContent<CreateUserDto>(response);
+            return content;
+        }
     }
 }
