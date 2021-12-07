@@ -74,15 +74,22 @@ namespace ApiTests
             Reporter.LogToReport(Status.Fail, "User first name doesn't match");
         }
 
+        [DeploymentItem("TestData\\TestCase.csv"),
+            DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "TestCase.csv", "TestCase#csv", DataAccessMethod.Sequential)]
         [TestMethod]
         public void CreateNewUser()
         {
-            string payload = @"{
-                                ""name"": ""John Snow"",
-                                ""job"": ""Dark Knight""
-                               }";
+            //string payload = @"{
+            //                    ""name"": ""John Snow"",
+            //                    ""job"": ""Dark Knight""
+            //                   }";
+
+            var users = new CreateUserRequestDto();
+            users.Name = TestContext.DataRow["name"].ToString();
+            users.Job = TestContext.DataRow["job"].ToString();
+
             var demo = new Demo<CreateUserDto>();
-            var user = demo.CreateUser("api/users", payload);
+            var user = demo.CreateUser("api/users", users);
 
             Assert.AreEqual("John Snow", user.Name);
             Assert.AreEqual("Dark Knight", user.Job);

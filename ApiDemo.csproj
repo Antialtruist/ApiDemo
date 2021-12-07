@@ -437,6 +437,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiHelper.cs" />
+    <Compile Include="DTO\CreateUserRequestDto.cs" />
     <Compile Include="DTO\CreateUserDto.cs" />
     <Compile Include="Demo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

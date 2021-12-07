@@ -16,7 +16,8 @@
         {
             var user = new ApiHelper<CreateUserDto>();
             var url = user.SetUrl(endpoint);
-            var request = user.CreatePostRequest(payload);
+            var jsonRequest = user.Serialize(payload);
+            var request = user.CreatePostRequest(jsonRequest);
             var response = user.GetResponse(url, request);
             CreateUserDto content = user.GetContent<CreateUserDto>(response);
             return content;

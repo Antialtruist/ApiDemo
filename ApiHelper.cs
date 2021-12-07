@@ -58,5 +58,11 @@ namespace ApiDemo
             Dto dtoObject = JsonConvert.DeserializeObject<Dto>(content);
             return dtoObject;
         }
+
+        public string Serialize(dynamic content)
+        {
+            string serializeObject = JsonConvert.SerializeObject(content, Formatting.Indented);
+            return serializeObject;
+        }
     }
 }
